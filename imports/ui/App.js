@@ -24,6 +24,8 @@ class App extends Component{
         //通过React的ref来寻找到文本域
         const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
+        Meteor.call('tasks.insert', text);
+
         //插入数据
         Tasks.insert({
             text,
@@ -49,11 +51,21 @@ class App extends Component{
         if (this.state.hideCompleted) {
             filteredTasks = filteredTasks.filter(task => !task.checked);
         }
+
         return filteredTasks.map(
-            (task) => (
-                <Task key={task._id} task={task}/>
-            )
-        );
+            (task) => {
+                //<Task key={task._id} task={task}/>
+                const currentUserId = this.props.currentUser && this.props.currentUser._id;
+                const showPrivateButton = task.owner === currentUserId;
+
+                return(
+                    <Task
+                        key={task._id}
+                        task={task}
+                        showPrivateButton={showPrivateButton}
+                    />
+                );
+            });
     }
 
     render() {
@@ -92,6 +104,7 @@ class App extends Component{
 
 export default withTracker(
     ()=> {
+        Meteor.subscribe('tasks');
         return {
             tasks:Tasks.find({},{sort: {createdAt:-1}}).fetch(),
             incompleteCount: Tasks.find({checked: {$ne:true}}).count(),
