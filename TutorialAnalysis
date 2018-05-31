@@ -1,0 +1,67 @@
+React : 组件式（component）
+
+项目结构 —— imports文件夹：
+                        这是一个特殊的文件夹，在imports之外的文件，会在app启动的时候自动加载。
+                        而在imports里面的文件夹，只有使用import语句导入的时候才会加载。
+
+
+定义React组件 ：
+                视图组件继承React.Component,意味着我们要从react第三方模块中导入组件类 【import {Component} from ‘react’】；
+
+React组件方法 ：
+                1：可以定义任何方法；
+                2：特殊的方法【The most important】—— render【渲染】—— 可以理解为render是一个接口，你必须要在组件中实现，作用是返回对页面进行美化渲染和数据展示；
+                3：render方法使用JSX语法；
+
+
+React组件数据接收 ：
+                    使用父类的props属性来实现接收数据；
+
+
+JSX语法 ：
+            作用： 类似在js中写HTML页面；
+
+            特点：
+                    1：使用className代替HTML页面中的 class属性
+                    2: 它是非模板语言，它直接编译成JS
+
+数据存储——集合 ： Meteor使用Mongodb，所以需要导入第三方模块 【import {Mongo} from 'meteor/mongo'】
+
+                优势： 1：client与server两端都可以访问 —— 节省了大量的服务端代码
+                      2：自动更新 —— 实时展示数据
+
+                创建方法 ： MyCollection = new Mongo.Collection("collection-name")
+
+                          作用： 1 ： client端 —— 构建一个连接到server端的缓存（可以假设它就是在client端创建数据库）
+                                2 ： server端 —— 创建一个Mongodb集合
+
+
+                限定符问题 ： 数据集合是全局使用，所以既不用var，也不要用let限定符；
+
+                            由于从数据集合获取到的值是不应该被改变的，也是全局使用的，
+                            所以首先使用const限定符限定获得的数据不可改，再使用export关键字全局导出；
+
+
+React组件中使用数据：使用第三方模块 【meteor add react-meteor-data】
+
+                  模块作用 ： 创建一个数据容器，使得React组件能通过层级方式来获取数据
+
+                  使用方式 ： 通过更高级的有序组件withTracker把组件打包成容器【import {withTracker} from ‘meteor/react-meteor-data’】
+
+                  打包方式 ： export default withTracker（）（component）withTracker里的数据或传给component
+
+React组件添加注释的方法： {/*...注释写在这里...*/}
+
+
+React事件绑定 ： {this.method.bind(this)} ，同时被绑定的方法需要一个event形参，一个形参.preventDefault()方法来禁止默认行为；
+
+React获取HTML标签方法 ： 1 ： 在标签定义ref属性；
+                       2 : 使用ReactDOM.findDOM(this.refs.ref's name)来解析DOM，使用.value.trim()方法获取值
+
+
+Meteor安全性问题【限定用于权限】：
+                                1：新工程都会默认添加insecure包，让我们能够在client端直接操作数据库，因此第一步是移除这个包【meteor remove insecure】
+                                2：开始自定义用户权限
+
+发布与订阅： 发布 —— server端可以选择性的把部分数据而不是全部数据传送给client端 【Meteor.publish('publication name', callback())】
+           订阅 —— client端通过订阅可以选择性的接收server端数据而不是全盘接收数据 【Meteor.subscribe('publication name')】
