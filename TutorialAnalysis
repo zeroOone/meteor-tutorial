@@ -41,14 +41,15 @@ JSX语法 ：
                             由于从数据集合获取到的值是不应该被改变的，也是全局使用的，
                             所以首先使用const限定符限定获得的数据不可改，再使用export关键字全局导出；
 
+                在服务端创建的collection，需要放到server文件夹的main.js中，这样才可以使用；
 
 React组件中使用数据：使用第三方模块 【meteor add react-meteor-data】
 
-                  模块作用 ： 创建一个数据容器，使得React组件能通过层级方式来获取数据
+                  模块作用 ： 创建一个数据容器，使得React组件能通过层级方式来获取数据库数据
 
                   使用方式 ： 通过更高级的有序组件withTracker把组件打包成容器【import {withTracker} from ‘meteor/react-meteor-data’】
 
-                  打包方式 ： export default withTracker（）（component）withTracker里的数据或传给component
+                  打包方式 ： export default withTracker（）（component）withTracker里从数据获取到的数据通过prp属性传给component
 
 React组件添加注释的方法： {/*...注释写在这里...*/}
 

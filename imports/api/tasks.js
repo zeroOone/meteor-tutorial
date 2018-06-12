@@ -7,7 +7,7 @@ export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
     //只在服务端运行的代码
-    Meteor.publish('tasks', function tasksPublication() {
+     Meteor.publish('tasks', function tasksPublication() {
         return Tasks.find(
             {
                 $or: [
