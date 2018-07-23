@@ -77,8 +77,7 @@ class App extends Component{
                         <input
                             type="checkbox"
                             readOnly
-                            checked={this.state.hideCompleted}
-                            onClick={this.toggleHideCompleted.bind(this)}
+                           onClick={this.toggleHideCompleted.bind(this)}
                         />
                         Hide Completed Tasks
                     </label>
